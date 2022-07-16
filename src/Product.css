@@ -28,7 +28,15 @@
   margin-bottom: 15px;
 }
 .product > button{
-  background-color:#f0c14b;
-  border: 1px solid;
+  padding: 3px 8px;
+  font-size: 15px;
+  background-color: #f0c14b;
   border-color: #a88734 #9c7e31 #846a29;
+  cursor: pointer;
+  outline: none;
+  transition: -2.9s all;
   }
+.product > button:active {
+  transform: scale(0.98);
+  /* Scaling button to 0.98 to its original size */
+}
