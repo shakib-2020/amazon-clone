@@ -4,10 +4,16 @@ import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { useStateValue } from "./StateProvider";
+import { auth } from "./firebase";
 
 function Header() {
-  const [{ basket }] = useStateValue();
-  console.log(basket);
+  const [{ basket, user }] = useStateValue();
+
+  const handleSignOutAuth = () => {
+    if (user) {
+      auth.signOut();
+    }
+  };
   return (
     <nav className="header">
       {/*logo on the left*/}
@@ -28,28 +34,32 @@ function Header() {
       {/*3links*/}
       <div className="header__nav">
         {/* link 1*/}
-        <Link to="/login" className="header__link">
-          <div className="header__option">
-            <span className="header__optionLineOne">hello,{`guest`}</span>
-            <span className="header__optionLineTwo">Sign In</span>
+        <Link to={!user && "/login"} className="header__link">
+          <div className="header__option" onClick={handleSignOutAuth}>
+            <span className="header__optionLineOne">
+              hello,{user ? `${user.email}` : `guest`}
+            </span>
+            <span className="header__optionLineTwo">
+              {user ? `Sign Out` : `Sign In`}
+            </span>
           </div>
         </Link>
         {/* link 2*/}
-        <Link to="/" className="header__link">
+        <Link to={user ? "/orders" : "/login"} className="header__link">
           <div className="header__option">
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
           </div>
         </Link>
         {/* link 3*/}
-        <Link to="/" className="header__link">
+        <Link to={user ? "/" : "/login"} className="header__link">
           <div className="header__option">
             <span className="header__optionLineOne">Your</span>
             <span className="header__optionLineTwo">Prime</span>
           </div>
         </Link>
         {/* link 4*/}
-        <Link to="/checkout" className="header__link">
+        <Link to={user ? "/checkout" : "/login"} className="header__link">
           <div className="header__optionBasket">
             {/*shopping basket icon*/}
             <ShoppingBasketIcon />

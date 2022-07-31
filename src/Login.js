@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import "./Login.css";
 
 export const Login = () => {
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
   //email and password state
   const [email, setEmail] = useState();
@@ -15,18 +16,17 @@ export const Login = () => {
   const signIn = (e) => {
     e.preventDefault();
 
-    auth
-      .signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
       .then((auth) => {
         if (auth) {
-          navigateTo("/");
+          navigate("/");
         }
       })
       .catch((error) => alert(error.message));
   };
   // handle register
   const register = (e) => {
-    navigateTo("/registration");
+    navigate("/registration");
   };
 
   return (

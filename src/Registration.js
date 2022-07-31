@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
 
 import "./Login.css";
@@ -46,8 +47,7 @@ export const Registration = () => {
     const { email, password } = userInfo;
 
     //auth to firebase
-    auth
-      .createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(auth, email, password)
       .then((auth) => {
         if (auth) {
           navigateTo("/");

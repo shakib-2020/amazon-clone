@@ -14,13 +14,13 @@ function Home() {
         <img
           className="home__image"
           src="https://m.media-amazon.com/images/I/61DUO0NqyyL._SX3000_.jpg"
-          alt=""
+          alt="banner"
         />
 
         {/* product id, title, price, rating,image*/}
         <div className="Home__row">
           <Product
-            Key="6"
+            key="1"
             id="123455"
             title="Oculus Quest All-in-one VR Gaming Headset – 64GB"
             price="582.00"
@@ -28,7 +28,7 @@ function Home() {
             image="https://images-na.ssl-images-amazon.com/images/I/31pEe2taIPL._AC_US218_.jpg"
           />
           <Product
-            Key="5"
+            key="2"
             id="156435"
             title="HP VH240a 23.8-inch Full HD 1080p IPS LED Monitor with Built-in Speakers and VESA Mounting, Rotating Portrait & Landscape, Tilt, and HDMI & VGA Ports (1KL30AA) - Black"
             price="109.99"
@@ -38,7 +38,7 @@ function Home() {
         </div>
         <div className="Home__row">
           <Product
-            Key="4"
+            key="3"
             id="146455"
             title="Seagate Portable 2TB External Hard Drive Portable HDD – USB 3.0 for PC, Mac, PS4, & Xbox (STGX2000400)"
             price="59.89"
@@ -46,7 +46,7 @@ function Home() {
             image="https://images-na.ssl-images-amazon.com/images/I/31jBba7+ySL._AC_US160_.jpg"
           />
           <Product
-            Key="3"
+            key="4"
             id="1876655"
             title="Lenovo Flex 5 14'2-in-1 Laptop, 14.0'FHD (1920 x 1080) Touch Display, AMD Ryzen 5 4500U Processor, 16GB DDR4, 256GB SSD, AMD Radeon Graphics, Digital Pen Included, Win 10"
             price="56.89"
@@ -54,7 +54,7 @@ function Home() {
             image="https://images-na.ssl-images-amazon.com/images/I/41Sj6WWOXtL._AC_US160_.jpg"
           />
           <Product
-            Key="2"
+            key="5"
             id="7865657"
             title="HP 63 | Ink Cartridge | Black | F6U62AN"
             price="66.89"
@@ -64,7 +64,7 @@ function Home() {
         </div>
         <div className="Home__row">
           <Product
-            Key="1"
+            key="6"
             id="22375"
             title="AOC CQ34G2 Super Curved Frameless Gaming Monitor, UltraWide FHD 2560x1080, 1500R VA Panel, 1ms MPRT, 75Hz, FreeSync, Height Adjustable, 3-Yr Zero Dead Pixels"
             price="309"

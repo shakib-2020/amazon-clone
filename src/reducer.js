@@ -39,6 +39,18 @@ const reducer = (state, action) => {
       return { ...state, basket: newBasket };
       // eslint-disable-next-line no-unreachable
       break;
+    case "EMPTY_BASKET":
+      return {
+        ...state,
+        basket: [],
+      };
+      // eslint-disable-next-line no-unreachable
+      break;
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.user,
+      };
     default:
       return state;
   }
