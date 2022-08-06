@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
@@ -7,12 +7,14 @@ import "./Login.css";
 
 export const Registration = () => {
   const navigateTo = useNavigate();
-
+  // states
   const [userInfo, setUserInfo] = useState({
     userName: "",
     email: "",
     password: "",
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
   //handle Change
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -44,17 +46,50 @@ export const Registration = () => {
   const register = (e) => {
     e.preventDefault();
 
-    const { email, password } = userInfo;
+    setFormErrors(validate(userInfo));
+    setIsSubmit(true);
 
-    //auth to firebase
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((auth) => {
-        if (auth) {
-          navigateTo("/");
-        }
-      })
-      .catch((error) => alert(error.message));
-    //some fancy firebase shittttt.......
+    if (isSubmit === true) {
+    } else {
+      const { email, password } = userInfo;
+
+      //auth to firebase
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((auth) => {
+          if (auth) {
+            navigateTo("/");
+          }
+        })
+        .catch((error) => console.log(error.message));
+    }
+  };
+  useEffect(() => {
+    console.log(formErrors);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(userInfo);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formErrors]);
+
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.userName) {
+      errors.userName = `Username is required!`;
+    }
+    if (!values.email) {
+      errors.email = `Email is required!`;
+    } else if (!regex.test(values.email)) {
+      errors.email = `This is not a valid email format!`;
+    }
+    if (!values.password) {
+      errors.password = `Password is required`;
+    } else if (values.password.length < 6) {
+      errors.password = `Password must be more than 6 characters`;
+    } else if (values.password.length > 10) {
+      errors.password = `Password cannot exceed more than 10 characters`;
+    }
+    return errors;
   };
 
   return (
@@ -78,6 +113,7 @@ export const Registration = () => {
             value={userInfo.userName}
             onChange={handleChange}
           />
+          <p className="form__error">{formErrors.userName}</p>
           <h5>E-mail</h5>
           <input
             name="email"
@@ -85,7 +121,7 @@ export const Registration = () => {
             value={userInfo.email}
             onChange={handleChange}
           />
-
+          <p className="form__error">{formErrors.email}</p>
           <h5>Password</h5>
           <input
             name="password"
@@ -94,6 +130,7 @@ export const Registration = () => {
             value={userInfo.password}
             onChange={handleChange}
           />
+          <p className="form__error">{formErrors.password}</p>
           <button
             type="submit"
             className="login__signInButton"
@@ -107,7 +144,9 @@ export const Registration = () => {
           </p>
           <br></br>
           <br></br>
-          <h5>Already have an account? Sign In</h5>
+          <h5>
+            Already have an account?<Link to="/login">Sign In</Link>
+          </h5>
         </form>
       </div>
     </div>

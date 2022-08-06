@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -9,21 +9,73 @@ export const Login = () => {
   const navigate = useNavigate();
 
   //email and password state
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [userInfo, setUserInfo] = useState({
+    email: "",
+    password: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
+  // handle change
+  const handleChange = (e) => {
+    let { name, value } = e.target;
+
+    setUserInfo((prevValue) => {
+      if (name === "email") {
+        return {
+          email: value,
+          password: prevValue.password,
+        };
+      } else if (name === "password") {
+        return {
+          email: prevValue.email,
+          password: value,
+        };
+      }
+    });
+  };
   //handle login
   const signIn = (e) => {
     e.preventDefault();
+    setFormErrors(validate(userInfo));
+    setIsSubmit(true);
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((auth) => {
-        if (auth) {
-          navigate("/");
-        }
-      })
-      .catch((error) => alert(error.message));
+    if (isSubmit === true) {
+      const { email, password } = userInfo;
+      signInWithEmailAndPassword(auth, email, password)
+        .then((auth) => {
+          if (auth) {
+            navigate("/");
+          }
+        })
+        .catch((error) => console.log(error.message));
+    }
   };
+  useEffect(() => {
+    console.log(formErrors);
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(userInfo);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formErrors]);
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.email) {
+      errors.email = `Email is required!`;
+    } else if (!regex.test(values.email)) {
+      errors.email = `This is not a valid email format!`;
+    }
+    if (!values.password) {
+      errors.password = `Password is required`;
+    } else if (values.password.length < 6) {
+      errors.password = `Password must be more than 6 characters`;
+    } else if (values.password.length > 10) {
+      errors.password = `Password cannot exceed more than 10 characters`;
+    }
+    return errors;
+  };
+
   // handle register
   const register = (e) => {
     navigate("/registration");
@@ -43,18 +95,17 @@ export const Login = () => {
 
         <form>
           <h5>E-mail</h5>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <input name="email" type="text" value={userInfo.email} onChange={handleChange} />
+          <p className="form__error">{formErrors.email}</p>
 
           <h5>Password</h5>
           <input
+            name="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userInfo.password}
+            onChange={handleChange}
           />
+          <p className="form__error">{formErrors.password}</p>
 
           <button
             type="submit"

@@ -76,3 +76,9 @@
   .login__registerButton:active{
     transform: scale(0.98);
   }
+.form__error{
+  margin: 1px;
+  margin-top:0px;
+  color: red;
+  font-size: 0.9rem;
+}

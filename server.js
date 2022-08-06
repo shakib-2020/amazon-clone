@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-const functions = require("firebase-functions");
 const express = require("express");
 const cors = require("cors");
 const stripeScretKey =
@@ -33,6 +32,6 @@ app.post("/payments/create", async (request, response) => {
   });
 });
 // --Listen command
-exports.api = functions.https.onRequest(app);
-
-// example end point: http://localhost:5001/clone-c14cc/us-central1/api
+app.listen(8080, () => {
+  console.log("Your app is running on port 8080...!!");
+});
