@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./firebase";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import "./Login.css";
 
 export const Registration = () => {
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
   // states
   const [userInfo, setUserInfo] = useState({
     userName: "",
@@ -15,6 +16,7 @@ export const Registration = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   //handle Change
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -45,24 +47,28 @@ export const Registration = () => {
 
   const register = (e) => {
     e.preventDefault();
-
     setFormErrors(validate(userInfo));
     setIsSubmit(true);
-
+  };
+  useEffect(() => {
     if (isSubmit === true) {
-    } else {
+      setIsLoading(true);
       const { email, password } = userInfo;
-
       //auth to firebase
       createUserWithEmailAndPassword(auth, email, password)
         .then((auth) => {
           if (auth) {
-            navigateTo("/");
+            navigate("/");
+            setIsLoading(false);
           }
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => {
+          console.log(error.message);
+          setIsLoading(false);
+        });
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmit]);
   useEffect(() => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -131,13 +137,22 @@ export const Registration = () => {
             onChange={handleChange}
           />
           <p className="form__error">{formErrors.password}</p>
-          <button
-            type="submit"
-            className="login__signInButton"
-            onClick={register}
-          >
-            Sign Up
-          </button>
+          {!isLoading && (
+            <button
+              type="submit"
+              className="login__signInButton"
+              onClick={register}
+            >
+              Sign Up
+            </button>
+          )}
+          {isLoading && (
+            <button type="submit" className="login__signInButton" disabled>
+              <CircularProgress style={{ width: "15px", height: "15px" }} />
+              Signing Up...
+            </button>
+          )}
+
           <p>
             By creating an account, you agree to Amazon's Conditions of Use and
             Privacy Notice.

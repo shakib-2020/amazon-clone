@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import "./Login.css";
 
@@ -15,6 +16,7 @@ export const Login = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // handle change
   const handleChange = (e) => {
@@ -34,23 +36,33 @@ export const Login = () => {
       }
     });
   };
+
   //handle login
   const signIn = (e) => {
     e.preventDefault();
     setFormErrors(validate(userInfo));
     setIsSubmit(true);
+  };
 
+  useEffect(() => {
     if (isSubmit === true) {
+      setIsLoading(true);
       const { email, password } = userInfo;
       signInWithEmailAndPassword(auth, email, password)
         .then((auth) => {
           if (auth) {
             navigate("/");
+            setIsLoading(false);
           }
         })
-        .catch((error) => console.log(error.message));
+        .catch((error) => {
+          console.log(error.message);
+          setIsLoading(false);
+        });
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmit]);
+
   useEffect(() => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -93,9 +105,14 @@ export const Login = () => {
       <div className="login__container">
         <h1>Sign-in</h1>
 
-        <form>
+        <form autocomplete="off">
           <h5>E-mail</h5>
-          <input name="email" type="text" value={userInfo.email} onChange={handleChange} />
+          <input
+            name="email"
+            type="text"
+            value={userInfo.email}
+            onChange={handleChange}
+          />
           <p className="form__error">{formErrors.email}</p>
 
           <h5>Password</h5>
@@ -107,13 +124,21 @@ export const Login = () => {
           />
           <p className="form__error">{formErrors.password}</p>
 
-          <button
-            type="submit"
-            className="login__signInButton"
-            onClick={signIn}
-          >
-            Sign In
-          </button>
+          {!isLoading && (
+            <button
+              type="submit"
+              className="login__signInButton"
+              onClick={signIn}
+            >
+              Sign In
+            </button>
+          )}
+          {isLoading && (
+            <button type="submit" className="login__signInButton" disabled>
+              <CircularProgress style={{ width: "15px", height: "15px" }} />
+              Signing In...
+            </button>
+          )}
         </form>
 
         <p>
@@ -123,7 +148,7 @@ export const Login = () => {
         </p>
 
         <button className="login__registerButton" onClick={register}>
-          Create your Amazon Account
+          Create your Amazon Account{" "}
         </button>
       </div>
     </div>

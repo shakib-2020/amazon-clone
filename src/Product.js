@@ -2,6 +2,7 @@ import React from "react";
 import "./Product.css";
 import { useStateValue } from "./StateProvider";
 import { useNavigate } from "react-router-dom";
+
 function Product({ id, title, image, price, rating }) {
   const [{ user }, dispatch] = useStateValue();
 

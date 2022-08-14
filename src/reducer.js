@@ -51,6 +51,8 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       };
+      // eslint-disable-next-line no-unreachable
+      break;
     default:
       return state;
   }
