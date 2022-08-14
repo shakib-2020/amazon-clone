@@ -1,13 +1,25 @@
 /* eslint-disable max-len */
 const express = require("express");
 const cors = require("cors");
-const stripeScretKey =
-  "sk_test_51LOHwtEpxgMDK8rjPIzNcsl1kqztDMpYbjLzHz2xqvXMlEj8UJr1olSoE5SVzjROEDKoXOrgEwcFOk98xWcYiR8s00uOTUyf4v";
-const stripe = require("stripe")(stripeScretKey);
+require("dotenv").config();
+const path = require("path");
 // API
+const stripeSecretKey = process.env.STRIPE_SECRET;
+const stripe = require("stripe")(stripeSecretKey);
 
 // --App cofig
 const app = express();
+
+// port
+
+const port = process.env.PORT || 8080;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
 
 // --Middlewares
 app.use(cors({ origin: true }));
@@ -32,6 +44,6 @@ app.post("/payments/create", async (request, response) => {
   });
 });
 // --Listen command
-app.listen(8080, () => {
-  console.log("Your app is running on port 8080...!!");
+app.listen(port, () => {
+  console.log("Your app is running on", port);
 });
