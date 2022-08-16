@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import "./Payment.css";
-import { useStateValue } from "./StateProvider";
-import CheckoutProduct from "./CheckoutProduct";
+import "../Payment/Payment.css";
+import { useStateValue } from "../../Context/StateProvider";
+import CheckoutProduct from "../CheckOut/CheckoutProduct";
 import { Link, useNavigate } from "react-router-dom";
 import CurrencyFormat from "react-currency-format";
-import { getBasketTotal } from "./reducer";
+import { getBasketTotal } from "../../Context/reducer";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import axios from "./axios";
+import axios from "../../Adapters/axios";
 import { doc, setDoc } from "firebase/firestore";
 
-import { db } from "./firebase";
+import { db } from "../../config/firebase";
 
 function Payment() {
   const navigate = useNavigate();
@@ -120,7 +120,13 @@ function Payment() {
             ))}
           </div>
         </div>
-
+        <div className="test__message_box">
+          <spen className="test__message_text">
+            {
+              "For Test  >>>  Type 4242... repetedly from 'card number' to 'CVC'"
+            }
+          </spen>
+        </div>
         {/* Payment section - Payment method */}
         <div className="payment__section">
           <div className="payment__title">

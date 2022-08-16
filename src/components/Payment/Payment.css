@@ -52,3 +52,13 @@
     transform: scale(0.98);
 
   }
+  .test__message_box {
+    background: #eaeded;
+    margin: 10px;
+    padding: 5px;
+  }
+  .test__message_text {
+    margin-left: 18rem;
+    font-weight: bold;
+    color: teal;
+  }

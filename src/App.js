@@ -3,16 +3,16 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import Checkout from "./Checkout";
-import { Login } from "./Login";
-import { Registration } from "./Registration";
-import { auth } from "./firebase";
-import { useStateValue } from "./StateProvider";
-import Payment from "./Payment";
+import Home from "./components/Home/Home";
+import Checkout from "./components/CheckOut/Checkout";
+import { Login } from "./components/Form/Login/Login";
+import { Registration } from "./components/Form/Registration/Registration";
+import { auth } from "./config/firebase";
+import { useStateValue } from "./Context/StateProvider";
+import Payment from "./components/Payment/Payment";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import Orders from "./Orders";
+import Orders from "./components/Orders/Orders";
 
 const promise = loadStripe(
   "pk_test_51LOHwtEpxgMDK8rjzvhZ8jLEYWt1impUZLfiml6le8xt5l1ggcJje0lgAgHlXpB6GEP7hULJOSUNCoFy1LzeMuKN001c7HP5jj"

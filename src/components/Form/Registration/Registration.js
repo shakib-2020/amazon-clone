@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth } from "../../../config/firebase";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import "./Login.css";
+import "../Login/Login.css";
 
 export const Registration = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React from "react";
-import Product from "./Product";
+import Product from "../Product/Product";
 import "./Home.css";
-import Header from "./Header";
+import Header from "../Header/Header";
 
 function Home() {
   return (
