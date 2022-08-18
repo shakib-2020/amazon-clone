@@ -4,9 +4,14 @@ import CheckoutProduct from "./CheckoutProduct";
 import "./Checkout.css";
 import Subtotal from "../SubTotal/Subtotal";
 import Header from "../Header/Header";
+import { useMediaQuery } from "react-responsive";
+import Footer from "../Footer/Footer";
 
 function Checkout() {
   const [{ basket, user }] = useStateValue();
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+  // const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
 
   return (
     <>
@@ -52,12 +57,26 @@ function Checkout() {
             </div>
           )}
         </div>
-        {basket.length > 0 && (
-          <div className="checkout__right">
-            <Subtotal />
-          </div>
+        {isDesktopOrLaptop && (
+          <>
+            {basket.length > 0 && (
+              <div className="checkout__right">
+                <Subtotal />
+              </div>
+            )}
+          </>
+        )}
+        {isTabletOrMobile && (
+          <>
+            {basket.length > 0 && (
+              <div className="checkout__bottom">
+                <Subtotal />
+              </div>
+            )}
+          </>
         )}
       </div>
+      <Footer />
     </>
   );
 }

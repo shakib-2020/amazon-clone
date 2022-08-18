@@ -1,22 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import DensityMediumIcon from "@mui/icons-material/DensityMedium";
+import { HeaderNav } from "./HeaderNav";
 import { useStateValue } from "../../Context/StateProvider";
-import { auth } from "../../config/firebase";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 function Header() {
+  const [isClicked, setClicked] = useState(false);
   const [{ basket, user }] = useStateValue();
 
-  const handleSignOutAuth = () => {
-    if (user) {
-      auth.signOut();
+  // media query
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+  // const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+
+  const handleClick = () => {
+    if (isClicked === false) {
+      setClicked(true);
+    } else {
+      setClicked(false);
     }
   };
+
   return (
     <>
       <nav className="header">
+        {isTabletOrMobile && (
+          <section className="header__sm">
+            {/* link 4*/}
+            <Link
+              to={user ? "/checkout" : "/login"}
+              className="header__sm__link"
+            >
+              <div className="header__optionBasket">
+                {/*shopping basket icon with number*/}
+                <ShoppingBasketIcon fontSize="inherit" />
+                {/*Number of item in the basket*/}
+                <span className="header__optionLineTwo header__basketCount">
+                  {!user ? 0 : basket.length}
+                </span>
+              </div>
+            </Link>
+          </section>
+        )}
         {/*logo on the left*/}
         <Link to="/">
           <img
@@ -25,54 +54,28 @@ function Header() {
             alt=""
           />
         </Link>
-
-        {/*search bar*/}
-        <div className="header__search">
-          <input type="text" name="searchBar" className="header__searchInput" />
-          <SearchIcon className="header__searchIcon" />
-        </div>
-
-        {/*3links*/}
-        <div className="header__nav">
-          {/* link 1*/}
-          <Link to={!user && "/login"} className="header__link">
-            <div className="header__option" onClick={handleSignOutAuth}>
-              <span className="header__optionLineOne">
-                hello,{user ? `${user.email}` : `guest`}
-              </span>
-              <span className="header__optionLineTwo">
-                {user ? `Sign Out` : `Sign In`}
-              </span>
+        {isTabletOrMobile && (
+          <button className="toggler__button" onClick={handleClick}>
+            <DensityMediumIcon sx={{ color: "#f79b34" }} />
+          </button>
+        )}
+        {isDesktopOrLaptop && (
+          <>
+            {/* search bar */}
+            <div className="header__search">
+              <input
+                type="text"
+                name="searchBar"
+                className="header__searchInput"
+              />
+              <SearchIcon className="header__searchIcon" />
             </div>
-          </Link>
-          {/* link 2*/}
-          <Link to={user ? "/orders" : "/login"} className="header__link">
-            <div className="header__option">
-              <span className="header__optionLineOne">Returns</span>
-              <span className="header__optionLineTwo">& Orders</span>
-            </div>
-          </Link>
-          {/* link 3*/}
-          <Link to={user ? "/" : "/login"} className="header__link">
-            <div className="header__option">
-              <span className="header__optionLineOne">Your</span>
-              <span className="header__optionLineTwo">Prime</span>
-            </div>
-          </Link>
-          {/* link 4*/}
-          <Link to={user ? "/checkout" : "/login"} className="header__link">
-            <div className="header__optionBasket">
-              {/*shopping basket icon*/}
-              <ShoppingBasketIcon />
-              {/*Number of item in the basket*/}
-              <span className="header__optionLineTwo header__basketCount">
-                {!user ? 0 : basket.length}
-              </span>
-            </div>
-          </Link>
-        </div>
-        {/*basket icon with number*/}
+            {/* haedr_nav */}
+            <HeaderNav />
+          </>
+        )}
       </nav>
+      {isTabletOrMobile && isClicked && <HeaderNav />}
     </>
   );
 }

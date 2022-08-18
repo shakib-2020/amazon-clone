@@ -88,7 +88,13 @@ function Payment() {
     <div className="payment">
       <div className="payment__container">
         <h1>
-          Checkout (<Link to="/checkout">{basket?.length} items</Link>)
+          Checkout (
+          <Link to="/checkout">
+            {basket.length === 0
+              ? `${basket.length} item, Add some!!`
+              : `${basket.length} item`}
+          </Link>
+          )
         </h1>
 
         {/* Payment section - delivery address */}

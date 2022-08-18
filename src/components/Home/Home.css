@@ -1,5 +1,5 @@
 .home{
-  max-width: 1500px;
+  max-width: 150rem;
   margin-left: auto;
   margin-right:auto;
 
@@ -7,11 +7,33 @@
 .Home__row{
   display: flex;
   z-index: 1;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: .5rem;
+  margin-right: .5rem;
 }
 .home__image{
   width: 100%;
   z-index: -1;
-  margin-bottom: -325px;
+  margin-bottom: -32.5rem;
 }
+/* 
+tablet Or Mobile max-width:1224px
+Desktop or leptop min-width:1224px
+big screen min-width:1824px
+*/
+
+/* Desktop or leptop */
+@media only screen and (min-width: 1224px) {
+  .home__image{
+    margin-bottom: -32.5rem;
+  }
+}
+/* tablet Or Mobile */
+@media only screen and (max-width: 1224px) {
+  .Home__row{
+    display: flex;
+    flex-direction: column;
+  }
+  .home__image{
+    display: none;
+  }
+}  

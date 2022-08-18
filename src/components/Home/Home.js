@@ -2,6 +2,7 @@ import React from "react";
 import Product from "../Product/Product";
 import "./Home.css";
 import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 function Home() {
   return (
@@ -22,7 +23,7 @@ function Home() {
           <Product
             key="1"
             id="123455"
-            title="Oculus Quest All-in-one VR Gaming Headset – 64GB"
+            title="Oculus Quest All-in-one VR Gaming Headset - 64GB"
             price="582.00"
             rating={4}
             image="https://images-na.ssl-images-amazon.com/images/I/31pEe2taIPL._AC_US218_.jpg"
@@ -74,6 +75,7 @@ function Home() {
         </div>
         {/* product */}
       </div>
+      <Footer />
     </>
   );
 }

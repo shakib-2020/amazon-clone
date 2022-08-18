@@ -5,6 +5,8 @@ import { useStateValue } from "../../Context/StateProvider";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import Order from "./Order";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 function Orders() {
   const [{ user }] = useStateValue();
@@ -32,28 +34,32 @@ function Orders() {
   console.log(orders);
 
   return (
-    <div className="orders">
-      <h1>Your Orders</h1>
-      <hr></hr>
-      {orders.length === 0 && (
-        <>
-          <h3>You have no orders to fulfill.</h3>
-          <br></br>
-          <br></br>
-          <span>
-            Return to {">"}{" "}
-            <Link to={"/"} style={{ fontWeight: "bold" }}>
-              Home page
-            </Link>
-          </span>
-        </>
-      )}
-      {orders.map((order) => (
-        <Order key={order.id} order={order} />
-      ))}
+    <>
+      <Header />
+      <div className="orders">
+        <h1>Your Orders</h1>
+        <hr></hr>
+        {orders.length === 0 && (
+          <>
+            <h3>You have no orders to fulfill.</h3>
+            <br></br>
+            <br></br>
+            <span>
+              Return to {">"}{" "}
+              <Link to={"/"} style={{ fontWeight: "bold" }}>
+                Home page
+              </Link>
+            </span>
+          </>
+        )}
+        {orders.map((order) => (
+          <Order key={order.id} order={order} />
+        ))}
 
-      <div className="orders__order"></div>
-    </div>
+        <div className="orders__order"></div>
+      </div>
+      <Footer />
+    </>
   );
 }
 

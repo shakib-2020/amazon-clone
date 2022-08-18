@@ -1,15 +1,15 @@
 .order {
-    padding: 40px;
-    margin: 20px 0;
-    border: 1px solid lightgray;
+    padding: 4rem;
+    margin: 2rem 0;
+    border: .1rem solid lightgray;
     background-color: white;
     position: relative;
 }
 
 .order__id {
     position: absolute;
-    top: 40px;
-    right: 20px;
+    top: 4rem;
+    right: 2rem;
   }
 
 .order__total {
